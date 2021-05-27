@@ -150,8 +150,8 @@ function JobsList(props) {
         let fromDate = '';
         let toDate = '';
         if (dateValue[0] && dateValue[1]) {
-            fromDate = dateValue[0].getFullYear() + '-' + (dateValue[0].getMonth() < 10 ? ('0' + dateValue[0].getMonth()) : dateValue[0].getMonth()) + '-' + dateValue[0].getDate();
-            toDate = dateValue[1].getFullYear() + '-' + (dateValue[1].getMonth() < 10 ? ('0' + dateValue[1].getMonth()) : dateValue[1].getMonth()) + '-' + dateValue[1].getDate();
+            fromDate = dateValue[0].getFullYear() + '-' + (dateValue[0].getMonth() < 10 ? ('0' + (dateValue[0].getMonth() + 1)) : (dateValue[0].getMonth() + 1)) + '-' + dateValue[0].getDate();
+            toDate = dateValue[1].getFullYear() + '-' + (dateValue[1].getMonth() < 10 ? ('0' + (dateValue[1].getMonth() + 1)) : (dateValue[1].getMonth() + 1)) + '-' + dateValue[1].getDate();
         }
         props.getJobsList(props.token, page, rowsPerPage, search, fromDate, toDate);
     }
