@@ -185,7 +185,7 @@ function JobsList(props) {
         }
         props.getJobsList(
             props.token,
-            page,
+            page + 1,
             rowsPerPage,
             search,
             fromDate,
