@@ -1,7 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
 import { useHistory } from "react-router-dom";
-import _ from "lodash";
 import { makeStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import Table from "@material-ui/core/Table";
@@ -35,7 +34,9 @@ const dispatchToProps = (dispatch) => {
             pageSize,
             searchQuery,
             fromDate,
-            todate
+            todate,
+            SortColumn,
+            SortDir
         ) =>
             dispatch(
                 getJobsList(
@@ -44,7 +45,9 @@ const dispatchToProps = (dispatch) => {
                     pageSize,
                     searchQuery,
                     fromDate,
-                    todate
+                    todate,
+                    SortColumn,
+                    SortDir
                 )
             ),
     };
@@ -189,7 +192,9 @@ function JobsList(props) {
             rowsPerPage,
             search,
             fromDate,
-            toDate
+            toDate,
+            sortTableField,
+            sortTableField !== "" ? orderBy : ""
         );
     };
 
@@ -264,17 +269,14 @@ function JobsList(props) {
                 "-" +
                 date.getDate();
         });
-        if (sortTableField) {
-            setRow(_.orderBy(props.jobList, [sortTableField], [orderBy]));
-        } else {
-            setRow(data);
-        }
+        setRow(data);
     };
 
     const createSortHandler = (column) => {
         let order = orderBy;
         if (column !== sortTableField) {
             setSortTableField(column);
+            setOrderBy('asc');
         } else {
             order = orderBy === "asc" ? "desc" : "asc";
             setOrderBy(order);
@@ -283,7 +285,7 @@ function JobsList(props) {
 
     React.useEffect(() => {
         formatData();
-    }, [props.jobList, orderBy, sortTableField]);
+    }, [props.jobList]);
 
     React.useEffect(() => {
         setTotalRecord(props.recordsFiltered);
@@ -291,7 +293,7 @@ function JobsList(props) {
 
     React.useEffect(() => {
         filterJobs();
-    }, [page, rowsPerPage]);
+    }, [page, rowsPerPage, orderBy, sortTableField]);
 
     React.useEffect(() => {
         if (props.token) {
