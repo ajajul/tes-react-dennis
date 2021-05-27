@@ -3,7 +3,7 @@ import * as actionType from "../variables/actionTypes";
 const initialState = {
     waiting: false,
     token: null,
-    sucess: true,
+    success: true,
     error: null,
 }
 
@@ -12,14 +12,12 @@ function userReducer(state = initialState, action) {
         case actionType.WAITING_REQUEST:
             return {
                 ...state,
-                sucess: false,
-                error: null,
-                waiting: true
+                waiting: action.value
             };
         case actionType.USER_LOGIN_SUCCESS:
             return {
                 ...state,
-                sucess: true,
+                success: true,
                 error: null,
                 token: action.responseData
             };
@@ -27,7 +25,7 @@ function userReducer(state = initialState, action) {
             return {
                 ...state,
                 token: null,
-                sucess: false,
+                success: false,
                 error: action.errorMessage,
             };
 
@@ -35,7 +33,7 @@ function userReducer(state = initialState, action) {
             return {
                 ...state,
                 token: null,
-                sucess: false,
+                success: false,
                 error: null,
             };
         default:

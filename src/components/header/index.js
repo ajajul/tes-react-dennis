@@ -1,30 +1,30 @@
-import React from 'react';
-import { connect } from 'react-redux';
-import { makeStyles } from '@material-ui/core/styles';
+import React from "react";
+import { connect } from "react-redux";
+import { makeStyles } from "@material-ui/core/styles";
 import { useHistory } from "react-router-dom";
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import IconButton from '@material-ui/core/IconButton';
-import { USER_LOGOUT } from '../../variables/actionTypes';
+import AppBar from "@material-ui/core/AppBar";
+import Toolbar from "@material-ui/core/Toolbar";
+import IconButton from "@material-ui/core/IconButton";
+import { USER_LOGOUT } from "../../variables/actionTypes";
 
 const dispatchToProps = (dispatch) => {
     return {
-        logOut: () => dispatch({ type: USER_LOGOUT, responseData: {} })
-    }
-}
+        logOut: () => dispatch({ type: USER_LOGOUT, responseData: {} }),
+    };
+};
 
 const stateToProps = (state) => {
     return {
-        token: state.user.token
+        token: state.user.token,
     };
-}
+};
 
 const useStyles = makeStyles((theme) => ({
     root: {
         flexGrow: 1,
     },
     menuButton: {
-        marginLeft: 'auto',
+        marginLeft: "auto",
     },
     title: {
         flexGrow: 1,
@@ -35,16 +35,16 @@ function Header(props) {
     const history = useHistory();
     const classes = useStyles();
     const [auth, setAuth] = React.useState(false);
-    
+
     const Logout = () => {
         props.logOut();
-    }
+    };
 
     React.useEffect(() => {
         if (props.token) {
             setAuth(true);
         } else {
-            setAuth(false)
+            setAuth(false);
         }
     }, [props.token]);
 

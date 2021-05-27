@@ -1,43 +1,44 @@
-import React from 'react';
+import React from "react";
+import { connect } from "react-redux";
 import { useHistory } from "react-router-dom";
-import Avatar from '@material-ui/core/Avatar';
-import Button from '@material-ui/core/Button';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import TextField from '@material-ui/core/TextField';
-import Link from '@material-ui/core/Link';
-import Grid from '@material-ui/core/Grid';
-import Box from '@material-ui/core/Box';
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
-import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/core/styles';
-import Container from '@material-ui/core/Container';
-import { connect } from 'react-redux';
-import { userLogin } from '../../actions/userActions';
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer, toast } from "react-toastify";
+import Avatar from "@material-ui/core/Avatar";
+import Button from "@material-ui/core/Button";
+import CssBaseline from "@material-ui/core/CssBaseline";
+import TextField from "@material-ui/core/TextField";
+import Link from "@material-ui/core/Link";
+import Grid from "@material-ui/core/Grid";
+import Box from "@material-ui/core/Box";
+import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
+import Typography from "@material-ui/core/Typography";
+import { makeStyles } from "@material-ui/core/styles";
+import Container from "@material-ui/core/Container";
+import { userLogin } from "../../actions/userActions";
+import "react-toastify/dist/ReactToastify.css";
 
 const dispatchToProps = (dispatch) => {
     return {
-        userLogin: (data) => dispatch(userLogin(data))
-    }
-}
+        userLogin: (data) => dispatch(userLogin(data)),
+    };
+};
 
 const stateToProps = (state) => {
     return {
+        waiting: state.user.waiting,
         token: state.user.token,
-        error: state.user.error
+        error: state.user.error,
     };
-}
+};
 
 function Copyright() {
     return (
         <Typography variant="body2" color="textSecondary" align="center">
-            {'Copyright © '}
+            {"Copyright © "}
             <Link color="inherit" href="https://material-ui.com/">
                 Your Website
-      </Link>{' '}
+            </Link>{" "}
             {new Date().getFullYear()}
-            {'.'}
+            {"."}
         </Typography>
     );
 }
@@ -45,16 +46,16 @@ function Copyright() {
 const useStyles = makeStyles((theme) => ({
     paper: {
         marginTop: theme.spacing(8),
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
     },
     avatar: {
         margin: theme.spacing(1),
         backgroundColor: theme.palette.secondary.main,
     },
     form: {
-        width: '100%', // Fix IE 11 issue.
+        width: "100%", // Fix IE 11 issue.
         marginTop: theme.spacing(1),
     },
     submit: {
@@ -63,53 +64,68 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const initialForm = {
-    email: '',
-    password: '',
-    error: '',
-}
+    email: "",
+    password: "",
+    error: "",
+};
 
 function SignIn(props) {
     const classes = useStyles();
     const history = useHistory();
     const [signinForm, setSigninFormData] = React.useState(initialForm);
 
-    const notify = (text) => toast.error(text, {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-    });
+    const notify = (text) =>
+        toast.error(text, {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+        });
 
     const submitLogin = (e) => {
         e.preventDefault();
-        if (signinForm.email === '') {
-            setSigninFormData({ ...signinForm, error: 'Please input your email' });
-            notify('Please input your email');
-        } else if (signinForm.password === '') {
-            setSigninFormData({ ...signinForm, error: 'Please input your password' });
-            notify('Please input your password');
-        } else if (!/^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[A-Za-z]+$/.test(signinForm.email)) {
-            setSigninFormData({ ...signinForm, error: 'Please input valid mail' });
-            notify('Please input valid mail');
+        if (signinForm.email === "") {
+            setSigninFormData({
+                ...signinForm,
+                error: "Please input your email",
+            });
+            notify("Please input your email");
+        } else if (signinForm.password === "") {
+            setSigninFormData({
+                ...signinForm,
+                error: "Please input your password",
+            });
+            notify("Please input your password");
+        } else if (
+            !/^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[A-Za-z]+$/.test(signinForm.email)
+        ) {
+            setSigninFormData({
+                ...signinForm,
+                error: "Please input valid mail",
+            });
+            notify("Please input valid mail");
         } else {
             const data = {
                 email: signinForm.email,
-                password: signinForm.password
-            }
+                password: signinForm.password,
+            };
             props.userLogin(data);
         }
-    }
+    };
 
-    const handleChange = (prop) => (event) => {
-        setSigninFormData({ ...signinForm, [prop]: event.target.value });
+    const handleChange = (event) => {
+        setSigninFormData({
+            ...signinForm,
+            [event.target.name]: event.target.value,
+        });
     };
 
     React.useEffect(() => {
         if (props.token) {
-            history.push("/jobs")
+            history.push("/jobs");
         }
     }, []);
 
@@ -122,7 +138,7 @@ function SignIn(props) {
 
     React.useEffect(() => {
         if (props.token) {
-            history.push("/jobs")
+            history.push("/jobs");
         }
     }, [props.token]);
 
@@ -140,35 +156,36 @@ function SignIn(props) {
                     <TextField
                         variant="outlined"
                         margin="normal"
-                        required
-                        type='email'
-                        fullWidth
+                        type="email"
                         id="email"
-                        label="Email Address"
                         name="email"
+                        label="Email Address"
                         autoComplete="email"
+                        required
+                        fullWidth
                         autoFocus
-                        onChange={handleChange('email')}
+                        onChange={handleChange}
                     />
                     <TextField
                         variant="outlined"
                         margin="normal"
-                        required
-                        fullWidth
-                        name="password"
-                        label="Password"
                         type="password"
                         id="password"
+                        name="password"
+                        label="Password"
                         autoComplete="current-password"
-                        onChange={handleChange('password')}
+                        required
+                        fullWidth
+                        onChange={handleChange}
                     />
                     <Button
                         type="submit"
-                        fullWidth
                         variant="contained"
                         color="primary"
+                        fullWidth
                         className={classes.submit}
                         onClick={submitLogin}
+                        disabled={props.waiting}
                     >
                         Sign In
                     </Button>

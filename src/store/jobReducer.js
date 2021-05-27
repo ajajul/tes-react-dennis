@@ -3,7 +3,7 @@ import * as actionType from "../variables/actionTypes";
 const initialState = {
     waiting: false,
     jobList: [],
-    sucess: true,
+    success: true,
     error: null,
     recordsTotal: 0,
     recordsFiltered: 0,
@@ -15,14 +15,12 @@ function userReducer(state = initialState, action) {
         case actionType.WAITING_REQUEST:
             return {
                 ...state,
-                sucess: false,
-                error: null,
-                waiting: true
+                waiting: action.value
             };
         case actionType.GET_JOB_LIST_SUCCESS:
             return {
                 ...state,
-                sucess: true,
+                success: true,
                 error: null,
                 jobList: action.responseData.data,
                 recordsTotal: action.responseData.recordsTotal,
@@ -33,7 +31,7 @@ function userReducer(state = initialState, action) {
             return {
                 ...state,
                 jobList: [],
-                sucess: false,
+                success: false,
                 error: action.errorMessage,
             };
         default:

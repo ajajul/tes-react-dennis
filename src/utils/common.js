@@ -4,7 +4,7 @@ import {
 
 export class common {
 
-    handleServerSucess = (response, dispatch, constantName) => {
+    handleServerSuccess = (response, dispatch, constantName) => {
         dispatch({ type: constantName, responseData: response.data });
         dispatch({ type: WAITING_REQUEST, value: false });
     }
