@@ -198,6 +198,14 @@ function JobsList(props) {
         );
     };
 
+    const searchJobs = () => {
+        if (page !== 0) {
+            setPage(0);
+        } else {
+            filterJobs();
+        }
+    }
+
     const formatData = () => {
         const data = [...props.jobList];
         data.forEach((element) => {
@@ -345,7 +353,7 @@ function JobsList(props) {
                                     <InputAdornment position="end">
                                         <IconButton
                                             aria-label="Search"
-                                            onClick={filterJobs}
+                                            onClick={searchJobs}
                                             onMouseDown={(event) => event.preventDefault()}
                                             edge="end"
                                         >
